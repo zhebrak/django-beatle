@@ -1,15 +1,15 @@
 from functools import wraps
 import hmac
+import importlib
 
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 
-from beatle.conf import settings
+from .conf import settings
 
 
 def get_signature(params):
     msg = ''.join(map(str, sorted(params.values()))).encode()
-    print msg
     return hmac.new(settings.SECRET_KEY.encode(), msg=msg).hexdigest()
 
 
@@ -38,6 +38,19 @@ def endpoint(request):
         configuration = settings.get_configuration()
         return JsonResponse(configuration)
 
-    print 'Making calls', request.GET.get('TASKS')
+    errors = []
+    for task in request.GET.get('TASKS').strip('[]').split(', '):
+        try:
+            str_module, str_function = task.strip('\'\"').rsplit('.', 1)
+            module = importlib.import_module(str_module)
+            getattr(module, str_function)()
+        except Exception as e:
+            errors.append(str(e))
+
+    if errors:
+        return JsonResponse({
+            'response': 'Error',
+            'errors': errors
+        })
 
     return JsonResponse({'response': 'OK'})

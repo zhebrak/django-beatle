@@ -5,8 +5,6 @@ import os
 
 from django.conf import settings as django_settings
 
-from beatle.exceptions import ImproperlyConfigured
-
 
 django_settings_module = os.environ.get("DJANGO_SETTINGS_MODULE")
 DEFAULT_CONFIG_MODULE = '.'.join([django_settings_module.rsplit('.', 1)[0], 'beatleconf'])
@@ -14,9 +12,12 @@ DEFAULT_CONFIG_MODULE = '.'.join([django_settings_module.rsplit('.', 1)[0], 'bea
 
 DEFAULT_SETTINGS = {
     'SECRET_KEY': None,
-    'UPDATE_EVERY': 10,
     'TIME_ZONE': 'Europe/Moscow'
 }
+
+
+class ImproperlyConfigured(Exception):
+    pass
 
 
 class Settings:

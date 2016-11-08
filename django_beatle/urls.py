@@ -2,7 +2,7 @@
 
 from django.conf.urls import url
 
-from beatle import views
+from . import views
 
 
 urlpatterns = [
