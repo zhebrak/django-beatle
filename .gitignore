@@ -1,3 +1,10 @@
-*.pyc
+.idea/*
 
+env/*
 build/*
+dist/*
+
+topypi
+MANIFEST
+
+*.pyc

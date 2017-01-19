@@ -8,7 +8,7 @@ __version__ = '0.0.1'
 short_description = 'Django client for beatle'
 
 setup(
-    name='django_beatle',
+    name='django-beatle',
     packages=['django_beatle'],
     version=__version__,
     description=short_description,
