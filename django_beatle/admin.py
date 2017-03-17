@@ -8,5 +8,7 @@ class TaskAdmin(admin.ModelAdmin):
     list_editable = ['is_enabled']
     list_filter = ['is_enabled']
 
+    readonly_fields = ['path', 'frequency']
+
 
 admin.site.register(Task, TaskAdmin)
